@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70704132d8d297540a0545ce7927ba3c, type: 3}
+  m_Name: PlayerStats
+  m_EditorClassIdentifier: 
+  MoveSpeed: 5
+  FireRate: 0.1
+  BulletSpeed: 0.3
+  BulletDamage: 1
+  BulletPrefab: {fileID: 2640555960003043369, guid: c9c86d0a70ef9604c9f087ddc9c9677f,
+    type: 3}

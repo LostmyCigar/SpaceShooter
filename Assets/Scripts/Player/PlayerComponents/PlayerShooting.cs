@@ -6,12 +6,15 @@ namespace Player
     public class PlayerShooting : Player.PlayerComponent
     {
 
-        public PlayerShooting(Player player, PlayerStats stats)
+        public PlayerShooting(Player player, PlayerStats stats, BulletPool bulletPool)
         {
             this.player = player;
             this.stats = stats;
+            this.bulletPool = bulletPool;
         }
 
+
+        private BulletPool bulletPool;
         private PlayerStats stats;
         private Player player;
 
@@ -33,13 +36,21 @@ namespace Player
             Shoot(aimDir);
         }
 
+        private Bullet GetBullet()
+        {
+            return bulletPool.pool.Get();
+        }
+
         //Optimize this with DOTS + Pooling
         private void Shoot(Vector3 aimDir)
         {
-            var bullet = Object.Instantiate(stats.BulletPrefab, player.transform.position, Quaternion.identity);
+            for (int i = 0; i < 3; i++)
+            {
+                var finalAimDir = Quaternion.AngleAxis(stats.BulletSpread[i], Vector3.up) * aimDir;
 
-            bullet.GetComponent<Bullet>().Init(stats, aimDir);
-
+                var bullet = GetBullet();
+                bullet.Init(finalAimDir, player.transform.position);
+            }
 
             FireRateTimer = stats.FireRate;
         }

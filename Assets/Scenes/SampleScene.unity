@@ -570,6 +570,12 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!4 &653815988 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1876791700636649939, guid: c9c86d0a70ef9604c9f087ddc9c9677f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2485887898576563990}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &784106540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 457522898486462373, guid: f0bfee725ec196940a55db35a383bb84,
@@ -1103,6 +1109,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bullet
       objectReference: {fileID: 0}
+    - target: {fileID: 7968975469103301724, guid: c9c86d0a70ef9604c9f087ddc9c9677f,
+        type: 3}
+      propertyPath: _transform
+      value: 
+      objectReference: {fileID: 653815988}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

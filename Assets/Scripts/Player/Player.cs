@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 
 namespace Player
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IDamagable
     {
         public abstract class PlayerComponent
         {
@@ -17,6 +17,7 @@ namespace Player
         private PlayerStats stats;
 
         private Rigidbody rb;
+        [SerializeField] private BulletPool bulletPool;
 
         public PlayerMovement movementComponent;
         public PlayerShooting shootComponent;
@@ -25,12 +26,10 @@ namespace Player
         private void CreatePlayerComponents()
         {
             movementComponent = new PlayerMovement(this, rb, stats);
-            shootComponent = new PlayerShooting(this, stats);
+            shootComponent = new PlayerShooting(this, stats, bulletPool);
 
             components.Add(movementComponent);
             components.Add(shootComponent);
-
-
         }
 
         private void Awake()
@@ -54,17 +53,9 @@ namespace Player
             }
         }
 
-
-
-        //Remove
-        private void OnDrawGizmos()
+        public void TakeDamage(int damage)
         {
-            var inputHandler = GetComponent<PlayerInputHandler>();
-
-            var playerShootPoint = new Vector3(transform.position.x, 0, transform.position.z);
-            var aimDir = (inputHandler.mouseAimPoint - playerShootPoint).normalized;
-
-            Gizmos.DrawLine(playerShootPoint, playerShootPoint + aimDir);
+            Debug.Log("Ouch");
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player
@@ -13,7 +14,11 @@ namespace Player
 
         public float FireRate;
         public float BulletSpeed;
-        public float BulletDamage;
+        public int BulletDamage;
+        public float BulletDestroyTime;
+        public List<int> BulletSpread;
+
+        public float BulletSpeedReduction;
 
         public GameObject BulletPrefab;
     }

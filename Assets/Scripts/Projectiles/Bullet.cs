@@ -1,28 +1,59 @@
 using Player;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private Transform _transform;
 
-    float speed;
-    float damage;
-
+    PlayerStats playerStats;
     Vector3 velocity;
+    private IObjectPool<Bullet> pool;
+
+    public void SetPool(IObjectPool<Bullet> pool) => this.pool = pool;
+    public void SetStats(PlayerStats stats)
+    {
+        playerStats = stats;
+    }
+
+    public void Init(Vector3 aimDir, Vector3 position)
+    {
+        _transform.position = position;
+        velocity = playerStats.BulletSpeed * aimDir;
+        StartCoroutine(RemoveTimer(playerStats.BulletDestroyTime));
+    }
+
+    private void Remove()
+    {
+        pool.Release(this);
+    }
+
+    private IEnumerator RemoveTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Remove();
+    }
+
 
     private void FixedUpdate()
     {
-        transform.position += velocity;
+        _transform.position += velocity;
     }
 
-
-    public void Init(PlayerStats stats, Vector3 aimDir)
+    private void Update()
     {
-        velocity = stats.BulletSpeed * aimDir;
+        velocity += velocity * (playerStats.BulletSpeedReduction * Time.deltaTime);
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit something");
+        var damageable = other.GetComponent<IDamagable>();
+
+        if (damageable != null)
+        {
+            damageable.TakeDamage(playerStats.BulletDamage);
+            Remove();
+        }
     }
 }

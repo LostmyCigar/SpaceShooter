@@ -16,5 +16,8 @@ MonoBehaviour:
   FireRate: 0.1
   BulletSpeed: 0.3
   BulletDamage: 1
+  BulletDestroyTime: 0.8
+  BulletSpread: f1ffffff000000000f000000
+  BulletSpeedReduction: -3
   BulletPrefab: {fileID: 2640555960003043369, guid: c9c86d0a70ef9604c9f087ddc9c9677f,
     type: 3}

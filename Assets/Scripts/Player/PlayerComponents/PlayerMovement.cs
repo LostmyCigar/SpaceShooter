@@ -24,11 +24,22 @@ namespace Player
             Move(moveInput);
         }
 
+        public void GetDashInput(Vector3 dashInput)
+        {
+            dashInput.Normalize();
+            Dash(dashInput);
+        }
+
         private void Move(Vector3 inputDir)
         {
             //hardcoded speed
             velocity = inputDir * stats.MoveSpeed;
             rb.velocity = velocity;
+        }
+
+        private void Dash(Vector3 dashInput)
+        {
+
         }
 
         public override void StartComponent()

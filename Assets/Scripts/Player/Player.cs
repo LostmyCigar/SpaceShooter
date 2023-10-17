@@ -11,21 +11,24 @@ namespace Player
         {
             public abstract void StartComponent();
             public abstract void UpdateComponent();
+            public abstract void FixedUpdateComponent();
         }
 
         [SerializeField]
         private PlayerStats stats;
 
-        private Rigidbody rb;
         [SerializeField] private BulletPool bulletPool;
 
         public PlayerMovement movementComponent;
         public PlayerShooting shootComponent;
         private List<PlayerComponent> components = new List<PlayerComponent>();
 
+        private Camera cam;
+
+
         private void CreatePlayerComponents()
         {
-            movementComponent = new PlayerMovement(this, rb, stats);
+            movementComponent = new PlayerMovement(this, transform, stats);
             shootComponent = new PlayerShooting(this, stats, bulletPool);
 
             components.Add(movementComponent);
@@ -34,8 +37,7 @@ namespace Player
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody>();
-
+            cam = Camera.main;
             CreatePlayerComponents();
         }
         void Start()
@@ -51,6 +53,25 @@ namespace Player
             {
                 component.UpdateComponent();
             }
+
+            CheckIfPlayerOutOfBounds();
+        }
+
+        private void FixedUpdate()
+        {
+            foreach (var component in components)
+            {
+                component.FixedUpdateComponent();
+            }
+        }
+
+        public void CheckIfPlayerOutOfBounds()
+        {
+            var playercamPos = cam.WorldToScreenPoint(transform.position);
+            if (playercamPos.x > Screen.width || playercamPos.x < 0)
+                transform.position = new(transform.position.x * -0.95f, transform.position.y, transform.position.z);
+            if (playercamPos.y > Screen.height || playercamPos.y < 0)
+                transform.position = new(transform.position.x, transform.position.y, transform.position.z * -0.95f);
         }
 
         public void TakeDamage(int damage)

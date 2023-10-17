@@ -64,6 +64,10 @@ namespace Player
         {
             FireRateTimer -= FireRateTimer <= 0 ? 0 : Time.deltaTime;
         }
+
+        public override void FixedUpdateComponent()
+        {
+        }
     }
 
 }

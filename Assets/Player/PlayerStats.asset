@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70704132d8d297540a0545ce7927ba3c, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
+  MoveSpeed: 1.3
+  Drag: 1.05
+  MaxSpeed: 3
   FireRate: 0.1
   BulletSpeed: 0.3
   BulletDamage: 1

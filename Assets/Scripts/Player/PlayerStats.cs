@@ -7,6 +7,8 @@ namespace Player
     public class PlayerStats : ScriptableObject
     {
         public float MoveSpeed;
+        public float Drag;
+        public float MaxSpeed;
 
 
         [Header("Shooting")]

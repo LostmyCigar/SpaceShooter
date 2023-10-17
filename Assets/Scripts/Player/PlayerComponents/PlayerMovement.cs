@@ -5,17 +5,18 @@ namespace Player
 {
     public class PlayerMovement : Player.PlayerComponent
     {
-        public PlayerMovement(Player player, Rigidbody rb, PlayerStats stats)
+        public PlayerMovement(Player player, Transform transform, PlayerStats stats)
         {
             this.player = player;
-            this.rb = rb;
+            this.transform = transform;
             this.stats = stats;
         }
 
-        private Rigidbody rb;
+        private Transform transform;
         private PlayerStats stats;
         private Player player;
 
+        private Vector3 inputVelocity;
         private Vector3 velocity;
 
         public void GetMoveInput(Vector3 moveInput)
@@ -32,9 +33,7 @@ namespace Player
 
         private void Move(Vector3 inputDir)
         {
-            //hardcoded speed
-            velocity = inputDir * stats.MoveSpeed;
-            rb.velocity = velocity;
+            inputVelocity = inputDir * stats.MoveSpeed;
         }
 
         private void Dash(Vector3 dashInput)
@@ -48,6 +47,21 @@ namespace Player
 
         public override void UpdateComponent()
         {
+            velocity += inputVelocity * Time.deltaTime;
+
+            transform.LookAt(transform.position + velocity);
+        }
+
+        public override void FixedUpdateComponent()
+        {
+            velocity /= stats.Drag;
+
+            if (velocity.magnitude > stats.MaxSpeed)
+            {
+                velocity = velocity.normalized * stats.MaxSpeed;
+            }
+
+            transform.position += velocity;
         }
     }
 }

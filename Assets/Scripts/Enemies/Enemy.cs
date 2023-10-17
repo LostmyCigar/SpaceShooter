@@ -7,24 +7,16 @@ public class Enemy : MonoBehaviour, IDamagable
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Transform _transform;
 
-    private Transform _playerTransform;
     private Vector3 _Velocity;
 
-    public void Init(Transform playerTranform)
+    public void Init(Vector3 dir, float speed)
     {
-        _playerTransform = playerTranform;
+        _Velocity  = dir.normalized * speed;
     }
 
     private void FixedUpdate()
     {
         _transform.position += _Velocity;
-    }
-
-    void Update()
-    {
-        var DirToPlayer = (_playerTransform.position - _transform.position).normalized;
-
-        _Velocity = DirToPlayer * _moveSpeed * 0.01f;
     }
 
     public void TakeDamage(int damage)

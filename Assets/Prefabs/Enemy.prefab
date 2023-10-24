@@ -103,6 +103,7 @@ MonoBehaviour:
   _minSize: 0.5
   _maxSize: 3
   _transform: {fileID: 7691086060820985861}
+  _normalScale: {x: 1, y: 1, z: 1}
 --- !u!135 &7306091876126449193
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 using UnityEngine;
 using Player;
+using UnityEngine.Pool;
+using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour, IDamagable
 {
@@ -11,8 +13,13 @@ public class Enemy : MonoBehaviour, IDamagable
     [SerializeField] private float _maxSize;
 
     [SerializeField] private Transform _transform;
+    [SerializeField] private Vector3 _normalScale;
+
+    private IObjectPool<Enemy> pool;
 
     private Vector3 _Velocity;
+
+    public void SetPool(IObjectPool<Enemy> pool) => this.pool = pool;
 
     private void OnEnable()
     {
@@ -44,8 +51,14 @@ public class Enemy : MonoBehaviour, IDamagable
 
         if (_hp < 0)
         {
-            Destroy(gameObject);
+            Remove();
         }
+    }
+
+    private void Remove()
+    {
+        _transform.localScale = _normalScale;
+        pool.Release(this);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,7 +68,7 @@ public class Enemy : MonoBehaviour, IDamagable
         if (player != null)
         {
             player.TakeDamage(1);
-            Destroy(gameObject);
+            Remove();
         }
     }
 }

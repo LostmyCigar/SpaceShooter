@@ -14,6 +14,9 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private float _spawnRadius;
 
+
+    [SerializeField] private EnemyPool _enemyPool;
+
     float spawnTimer = 0;
 
     private void Start()
@@ -34,7 +37,10 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-
+    private Enemy GetEnemy()
+    {
+        return _enemyPool.pool.Get();
+    }
 
     private IEnumerator SpawnWithInterval(int interval)
     {
@@ -61,7 +67,8 @@ public class EnemySpawner : MonoBehaviour
         var spawnPoint = GetRandomSpawnPoint();
         var aimDir = spawnPoint.normalized * -1;
 
-        var enemy = Instantiate<Enemy>(_enemyPrefab, spawnPoint, Quaternion.identity);
+        var enemy = GetEnemy();
+        enemy.transform.position = spawnPoint;
         enemy.Init(aimDir);
     }
 }

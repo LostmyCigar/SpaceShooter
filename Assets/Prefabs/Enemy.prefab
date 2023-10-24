@@ -98,7 +98,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hp: 1
-  _moveSpeed: 3
+  _minSpeed: 0.02
+  _maxSpeed: 0.02
+  _minSize: 0.5
+  _maxSize: 3
   _transform: {fileID: 7691086060820985861}
 --- !u!135 &7306091876126449193
 SphereCollider:

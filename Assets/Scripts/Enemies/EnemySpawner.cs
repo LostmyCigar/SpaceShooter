@@ -1,5 +1,7 @@
 using System.Collections;
+using Unity.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -13,11 +15,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int _spawnTime;
 
     [SerializeField] private float _spawnRadius;
-
-
     [SerializeField] private EnemyPool _enemyPool;
-
-    float spawnTimer = 0;
 
     private void Start()
     {
@@ -64,11 +62,12 @@ public class EnemySpawner : MonoBehaviour
     }
 
     void SpawnEnemy() {
-        var spawnPoint = GetRandomSpawnPoint();
-        var aimDir = spawnPoint.normalized * -1;
 
         var enemy = GetEnemy();
-        enemy.transform.position = spawnPoint;
-        enemy.Init(aimDir);
+
+        var spawnPoint = GetRandomSpawnPoint();
+        var aimDir = -spawnPoint.normalized; //we just send it towards 0,0,0 for now
+
+        enemy.StartEnemy(aimDir, spawnPoint);
     }
 }

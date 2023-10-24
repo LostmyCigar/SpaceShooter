@@ -2,10 +2,13 @@ using UnityEngine;
 using Player;
 using UnityEngine.Pool;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
+using Unity.Jobs;
 
 public class Enemy : MonoBehaviour, IDamagable
 {
     [SerializeField] private int _hp;
+
     [SerializeField] private float _minSpeed;
     [SerializeField] private float _maxSpeed;
 
@@ -13,36 +16,53 @@ public class Enemy : MonoBehaviour, IDamagable
     [SerializeField] private float _maxSize;
 
     [SerializeField] private Transform _transform;
-    [SerializeField] private Vector3 _normalScale;
 
-    private IObjectPool<Enemy> pool;
+    private EnemyJobHandler _jobHandler;
 
-    private Vector3 _Velocity;
+    private Camera _camera;
+    private IObjectPool<Enemy> _pool;
 
-    public void SetPool(IObjectPool<Enemy> pool) => this.pool = pool;
+    public void SetPool(IObjectPool<Enemy> pool) => this._pool = pool;
 
+
+    private void Awake()
+    {
+        _camera = Camera.main;
+        _jobHandler = new EnemyJobHandler(_transform, _camera, Screen.width, Screen.height);
+
+        _transform.localScale = transform.localScale * Random.Range(_minSize, _maxSize);
+    }
     private void OnEnable()
     {
+        _jobHandler.NotOnScreen += Remove;
         Profiling.EnemyCounter++;
     }
- 
     private void OnDisable()
     {
+        _jobHandler.NotOnScreen -= Remove;
         Profiling.EnemyCounter--;
     }
 
-    public void Init(Vector3 dir)
+    private void Update()
     {
-        var speed = Random.Range(_minSpeed, _maxSpeed);
-        var scale = transform.localScale * Random.Range(_minSize, _maxSize);
-
-        _transform.localScale = scale;
-        _Velocity  = dir.normalized * speed;
+        _jobHandler.Update();
     }
 
-    private void FixedUpdate()
+    public void LateUpdate()
     {
-        _transform.position += _Velocity;
+        _jobHandler.LateUpdate();
+    }
+
+    private void OnDestroy()
+    {
+        _jobHandler.OnDestroy();
+    }
+
+    public void StartEnemy(Vector3 aimDir, Vector3 startPos)
+    {
+        var speed = Random.Range(_minSpeed, _maxSpeed);
+
+        _jobHandler.SetMovementAndPosition(speed, aimDir, startPos);
     }
 
     public void TakeDamage(int damage)
@@ -55,10 +75,9 @@ public class Enemy : MonoBehaviour, IDamagable
         }
     }
 
-    private void Remove()
+    public void Remove()
     {
-        _transform.localScale = _normalScale;
-        pool.Release(this);
+        _pool.Release(this);
     }
 
     private void OnTriggerEnter(Collider other)

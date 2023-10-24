@@ -34,9 +34,9 @@ public class Profiling : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        FrameCounterText.text = "FrameCount: " + FrameCounter.ToString();
-        EnemyCounterText.text = "EnemyCount: " + EnemyCounter.ToString();
-        EnemiesPerFrameText.text = "EnemiesPerFrame: " + EnemiesPerFrame.ToString();
+        FrameCounterText.text = "Average FPS: " + (Time.frameCount / Time.time).ToString();
+        EnemyCounterText.text = "Active Enemies: " + EnemyCounter.ToString();
+        //EnemiesPerFrameText.text = "Spawn Per Interval: " + EnemiesPerFrame.ToString();
     
         StartCoroutine(UpdateText());
     }

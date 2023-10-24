@@ -16,12 +16,12 @@ public class EnemyPool : MonoBehaviour
     {
         DontDestroyOnLoad(transform.root);
 
-        pool = new ObjectPool<Enemy>(CreateBullet, OnTakeFromPool, OnReturnToPool);
+        pool = new ObjectPool<Enemy>(CreateEnemy, OnTakeFromPool, OnReturnToPool);
 
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 50000; i++)
         {
-            var enemy = CreateBullet();
-            pool.Release(enemy);
+            var enemy = CreateEnemy();
+            enemy.Remove();
         }
     }
 
@@ -30,7 +30,7 @@ public class EnemyPool : MonoBehaviour
         ActiveEnemies = pool.CountActive;
         InactiveEnemies = pool.CountInactive;
     }
-    private Enemy CreateBullet()
+    private Enemy CreateEnemy()
     {
         var enemy = Instantiate(enemyPrefab);
         enemy.SetPool(pool);

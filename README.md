@@ -2,6 +2,8 @@
  
 Due to me working onaa fulltime project I choose to not use ECS and instead only tried some optimizations using jobs and the burst compiler.
 
+# Implementation
+//reminder to update this
 
 # Notes
 

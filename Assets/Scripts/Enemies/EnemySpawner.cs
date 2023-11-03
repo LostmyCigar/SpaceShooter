@@ -35,6 +35,11 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void UpdateSpawnPerSecCount(int count)
+    {
+        _timedIntervalSpawnCount = count;
+    }
+
     private Enemy GetEnemy()
     {
         return _enemyPool.pool.Get();

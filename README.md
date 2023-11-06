@@ -29,33 +29,28 @@ Enemy size: 88b
 
 500 asteroids:
 
-![Naive500Ast](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/b9bbdf08-0081-4f72-9d3f-0093b73c5143)
+![Naive500Ast](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/99b83ef9-5ebb-4b2d-92aa-5a91b25b8588)
 
  FPS ~140
  
-![Naive500AstGCAloc](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/886e368c-b72d-462b-bd75-c53758eab558)
+ ![Naive500AstGCAloc](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/cae3bcc0-c96c-4357-9ff6-760c5161d8b0)
 
 GC alloc: 0.7mb
 
 Spawning takes 146ms 
 
-![Naive5000Ast](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/37aea58a-6e41-46ed-a56c-a8d7b622b158)
+![Naive5000Ast](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/bca46253-bc27-4b04-8a1f-4ce13fee7a58)
 
 5000 asteroids: ~30fps
 
-![Naive5000Ast](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/dfdc2a46-f530-45de-9cc9-a1c68e0c98ba)
-
-50000 asteroids: ~0.9fps
-
- Comparison 5000 to 50000 enemies in memory 
+Comparison 5000 to 50000 enemies in memory 
  
- ![500to5000Compare](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/86ac4f74-b982-4277-b1f3-248f3d56fbb4)
+![500to5000Compare](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/b236c119-5098-4602-a4d0-9897ea10fcc9)
 
 
 Scared of whatever this is:
 
-![ScaredOfThis](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/3f6dc11a-32e7-4366-b113-3af45881b36f)
-
+![ScaredOfThis](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/f1be5ffc-1cc2-40e4-ae1b-ab3af5f74e07)
 
 
 Spawning with set intervals:
@@ -63,18 +58,17 @@ Spawning with set intervals:
 50 enemies every second:
 (Around 100 enemies active at any time)
 
-![50AstPerSec](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/c67dcb8b-5ef3-416b-b442-225a310d7388)
-
+![50AstPerSec](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/c62e90c3-3f5b-42c8-9345-f445aa617f6a)
 
 
 
 Fun little spike on one single enemy. (Why?)
 
-![SingleEnemySpike](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/35411d33-778c-4939-a9c5-c6fc12fb21aa)
+![SingleEnemySpike](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/ebcf999f-5212-4b12-9435-c5f7a4628cb2)
 
 With Enemies Pooled:
 
-![50AstPerSecPooled](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/ba619034-893a-4ffb-b175-8b57dac0aab3)
+![50AstPerSecPooled](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/02c9109c-ba5e-4011-b0d0-4bc3d74f4d89)
 
 Cant say i understand why pooling doesnt seem to have an impact unless im doing something wrong when releasing pooled enemies (Setting them inactive). But the allocation seems to be happening OnTriggerEnter. 
 
@@ -86,14 +80,13 @@ Me being somewhat unfamiliar to the profiler have been profiling the editor so f
 
 I have these odd spikes when running the standalone build:
 
-![OddSpikes](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/47b37a49-d2da-43e9-ad78-290d63c16c96)
+![OddSpikes](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/9ca760ff-3444-4ac6-bedb-c5c8383f9c09)
 
 
 
 With pooling so far all the GC aloc that is happening comes from coroutine calls (Expected since we are using new WaitForSeconds)
 
-
-![CoroutineGCAloc](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/44079684-5a35-4d8c-a2dd-e928acb1ca08)
+![CoroutineGCAloc](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/302cf13e-33a5-4816-b760-31297a770278)
 
 
 
@@ -102,16 +95,16 @@ Using jobs and burst compiler:
 
 Spawning 500 enemies every second
 
-![500PerSecBurst](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/779be01c-172f-4688-a5c5-5f565ad267cf)
+![500PerSecBurst](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/a14f8ef9-3fc0-40b0-abad-b3579cc4ed79)
 
 
 Spawning 50 enemies every second in editor profiling
 
-![50AstPerSecBurst](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/fbd6b778-a1e0-4930-8bd0-812f2e4f6f45)
+![50AstPerSecBurst](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/aaf876b5-db8f-43a5-b53e-63f002be9527)
 
 Standalone build
 
-![50AstPerSecBurstStandalone](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/d3f3db73-989b-4fc0-a244-2791715c825e)
+![50AstPerSecBurstStandalone](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/70245bac-6665-460a-9ef3-f69c4d78fc16)
 
 ~6 ms per frame (aprox 166 fps)
 

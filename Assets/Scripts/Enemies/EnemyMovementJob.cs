@@ -4,7 +4,7 @@ using Unity.Collections;
 using Unity.Burst;
 
 [BurstCompile]
-public struct EnemyMovementJob : IJob
+public struct EnemyMovementJob : IJobParallelFor
 {
     private Vector3 _position;
     private Vector3 _velocity;
@@ -26,7 +26,7 @@ public struct EnemyMovementJob : IJob
         _positionResult[0] = _position;
     }
 
-    public void Execute()
+    public void Execute(int Integer)
     {
         Move();
     }

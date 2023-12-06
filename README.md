@@ -11,6 +11,23 @@ I tried to implement the Player logic in a way that is inspired by DoD (although
 My primary optimization (and usage of DoD) was using unitys Job system. The Job system supports use of the burst compiler which in itself is a good optimization (when used) since it optimizes the code into native code and does not compile at runtime (From my understanding it technically compiles at the first instance of a scheduled job?). Burst compiler also does away with overhead such as exception handling and garbage collection. Another performance advantage with Jobs is the possibility to use multithreading. Although my project does not properly implement it the way it could (by using ScheduleParallel() ), It does use Schedule() which moves the work away from the main thread into a worker thread. Even if I were to implement multithreading I am unsure of the performance bonus it would gain since the calculations we are running in jobs are very light and we still need to move the data back into the main thread eventually. Jobs are, even if we are not using them to their full effect, at the very least cache friendly due to their DoD nature. Jobs make sure that the data has both Temporal and Spatial locality, thus making more efficient use of how a computer fetches memory from the cache.
 
 
+#Updated
+
+While its hard to say what exactly was wrong in my previous documentation was wrong since I didnt receive any feedback and everything I acually learned during the course had to come from the internet. That being said, ill try to improve it. 
+
+Since its a bit clearer on how the implementation and profiling is lacking, that where ill start. 
+
+To make sure i can get propper information from the profiler ill make things a bit more consistant:
+
+Enemies no longer die (unless you shoot them), and we spawn them by pressing space.
+They no longer move so we wont have to worry about that either.
+Basicly im stripping the game into something very simple to profile.
+
+
+A thread.Sleep() was added in the update method of the enemies to simulate lag. 
+
+
+
 # Notes
 
 Full Naive implementation 

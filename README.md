@@ -13,7 +13,7 @@ My primary optimization (and usage of DoD) was using unitys Job system. The Job 
 
 # Updated
 
-While its hard to say what exactly was wrong in my previous documentation was wrong since I didnt receive any feedback and everything I acually learned during the course had to come from the internet. That being said, ill try to improve it. 
+Its hard to say what exactly was wrong in my previous documentation since I didnt receive any feedback and everything I acually learned during the course had to come from the internet. That being said, ill try to improve it. 
 
 Since its a bit clearer on how the implementation and profiling is lacking, that where ill start. 
 

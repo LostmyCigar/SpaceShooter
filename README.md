@@ -1,3 +1,7 @@
+# Updated
+
+Its pretty understandable that there were a bunch of flaws in the description since, like many other students this course, had to learn this stuff from the internet. I am expecting you to fail this again since I havnt had found any time to fix it. I understand the flaws in implementation (notes and code) and will improve them for next time. As for the written part, maybe you can take the time as a -teacher- to give feedback or atleast point out where things are simply wrong. That part is slightly harder to do myself and going back to watch the lectures again is less than fruitful. I dont mind passive aggressive-ness as long as i can acually learn from it!
+
 # SpaceShooter
  
 Due to me working on a fulltime project I choose to not use ECS and instead only tried some optimizations using jobs and the burst compiler. Also please correct me if I am wrong on anything as I feel that my knowledge is a bit surface level :(
@@ -9,22 +13,6 @@ I started by creating the game with a "Naive" approach (I.E a using Mono OOP). S
 I tried to implement the Player logic in a way that is inspired by DoD (although in the end uses a OOP approach) by separating player behaviors such as shooting and moving into their own behaviors that we then contain in the same chunk of memory (although since im using a list for practicality i might be completely off here since im unsure how how lists store memory, using a Array is for sure the proper choice but it also not something im bothering with here) and running their logic. This is primarily a way to keep behaviors separate from each other to make a project more manageable and some improvement could be made from a performance standpoint such as making the behaviors into struct (that they already basically work as) as this would avoid allocating the classes on the heap. 
 
 My primary optimization (and usage of DoD) was using unitys Job system. The Job system supports use of the burst compiler which in itself is a good optimization (when used) since it optimizes the code into native code and does not compile at runtime (From my understanding it technically compiles at the first instance of a scheduled job?). Burst compiler also does away with overhead such as exception handling and garbage collection. Another performance advantage with Jobs is the possibility to use multithreading. Although my project does not properly implement it the way it could (by using ScheduleParallel() ), It does use Schedule() which moves the work away from the main thread into a worker thread. Even if I were to implement multithreading I am unsure of the performance bonus it would gain since the calculations we are running in jobs are very light and we still need to move the data back into the main thread eventually. Jobs are, even if we are not using them to their full effect, at the very least cache friendly due to their DoD nature. Jobs make sure that the data has both Temporal and Spatial locality, thus making more efficient use of how a computer fetches memory from the cache.
-
-
-# Updated
-
-Its hard to say what exactly was wrong in my previous documentation since I didnt receive any feedback and everything I acually learned during the course had to come from the internet. That being said, ill try to improve it. 
-
-Since its a bit clearer on how the implementation and profiling is lacking, that where ill start. 
-
-To make sure i can get propper information from the profiler ill make things a bit more consistant:
-
-Enemies no longer die (unless you shoot them), and we spawn them by pressing space.
-They no longer move so we wont have to worry about that either.
-Basicly im stripping the game into something very simple to profile.
-
-
-A thread.Sleep() was added in the update method of the enemies to simulate lag. 
 
 
 

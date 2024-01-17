@@ -1,3 +1,38 @@
+# Implementation
+
+I start off with a _not as naive_ implementation this time. I already have a spaceshooter working, lets make it less shoot-y and more optimized-y. 
+
+I started off with stipping away the old stuff in the enemies. No more movement, spawning in intervals, getting shot, etc. I now spawn 1 enemy when I press space and to make each enemy heavy they run a good old Thread.Sleep(1).
+
+We now have game about remove enemies to improve your Fps, amazing. 
+
+![Gif](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/e671eda3-f2b2-4f7e-a8d3-cfe58add773f)
+
+```
+    void SpawnEnemy()
+    {
+        var enemy = GetEnemy();
+
+        enemy.transform.position = GetRandomSpawnPoint();
+        enemy.transform.localScale = transform.localScale * Random.Range(0.5f, 1.2f);
+
+        _enemies.Add(enemy);
+    }
+```
+ Im also updating enemies inside our spawner:
+ ```
+    private void Update()
+    {
+        if (!_shouldRunEnemies) return;
+
+        foreach (Enemy enemy in _enemies)
+        {
+            enemy.UpdateEnemy();
+        }
+    }
+```
+
+
 # Updated
 
 Its pretty understandable that there were a bunch of flaws in the description since, like many other students this course, had to learn this stuff from the internet. I am expecting you to fail this again since I havnt had found any time to fix it. I understand the flaws in implementation (notes and code) and will improve them for next time. As for the written part, maybe you can take the time as a -teacher- to give feedback or atleast point out where things are simply wrong. That part is slightly harder to do myself and going back to watch the lectures again is less than fruitful. I dont mind passive aggressive-ness as long as i can acually learn from it!

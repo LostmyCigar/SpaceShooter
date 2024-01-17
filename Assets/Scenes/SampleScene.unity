@@ -1822,10 +1822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 7117724706047459015, guid: b28acc19822e4a142937f163ffdfb731,
     type: 3}
-  _startSpawnCount: 5000
-  _perFrameSpawnCount: 0
-  _timedIntervalSpawnCount: 0
-  _spawnTime: 0
+  _SpawnCount: 1
   _spawnRadius: 20
   _enemyPool: {fileID: 1396606802}
 --- !u!114 &1396606802
@@ -2337,6 +2334,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3a209807-7d53-4189-8f48-06b87a0c7b55
     m_ActionName: Gameplay/Aim[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 450098199213379450}
+        m_TargetAssemblyTypeName: Player.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: SpawnInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3ea6b69a-2951-4277-8280-17c09d05929e
+    m_ActionName: Gameplay/Spawn[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

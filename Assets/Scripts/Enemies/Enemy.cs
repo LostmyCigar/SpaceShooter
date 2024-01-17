@@ -4,66 +4,40 @@ using UnityEngine.Pool;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using Unity.Jobs;
+using System.Threading;
 
 public class Enemy : MonoBehaviour, IDamagable
 {
     [SerializeField] private int _hp;
 
-    [SerializeField] private float _minSpeed;
-    [SerializeField] private float _maxSpeed;
-
-    [SerializeField] private float _minSize;
-    [SerializeField] private float _maxSize;
-
-    [SerializeField] private Transform _transform;
-
-    private EnemyJobHandler _jobHandler;
+    private EnemySpawner spawner;
 
     private Camera _camera;
     private IObjectPool<Enemy> _pool;
 
     public void SetPool(IObjectPool<Enemy> pool) => this._pool = pool;
 
-
-    private void Awake()
-    {
-        _camera = Camera.main;
-        _jobHandler = new EnemyJobHandler(_transform, _camera, Screen.width, Screen.height);
-
-        _transform.localScale = transform.localScale * Random.Range(_minSize, _maxSize);
-    }
     private void OnEnable()
     {
-        _jobHandler.NotOnScreen += Remove;
         Profiling.EnemyCounter++;
     }
     private void OnDisable()
     {
-        _jobHandler.NotOnScreen -= Remove;
+        spawner?.RemoveEnemy(this);
         Profiling.EnemyCounter--;
     }
 
-    private void Update()
+    public void SetSpawner(EnemySpawner spawner)
     {
-        _jobHandler.Update();
+        this.spawner = spawner; 
     }
 
-    public void LateUpdate()
+    public void UpdateEnemy()
     {
-        _jobHandler.LateUpdate();
+        Thread.Sleep(1);
     }
 
-    private void OnDestroy()
-    {
-        _jobHandler.OnDestroy();
-    }
 
-    public void StartEnemy(Vector3 aimDir, Vector3 startPos)
-    {
-        var speed = Random.Range(_minSpeed, _maxSpeed);
-
-        _jobHandler.SetMovementAndPosition(speed, aimDir, startPos);
-    }
 
     public void TakeDamage(int damage)
     {
@@ -74,20 +48,8 @@ public class Enemy : MonoBehaviour, IDamagable
             Remove();
         }
     }
-
     public void Remove()
     {
         _pool.Release(this);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        var player = other.GetComponent<Player.Player>();
-            
-        if (player != null)
-        {
-            player.TakeDamage(1);
-            Remove();
-        }
     }
 }

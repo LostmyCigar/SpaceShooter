@@ -1,78 +1,83 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : GenericSingleton<EnemySpawner>
 {
     [SerializeField] Enemy _enemyPrefab;
 
-    [SerializeField] private int _startSpawnCount;
+    [SerializeField] private bool _shouldRunEnemies = true;
 
-    [SerializeField] private int _perFrameSpawnCount;
-
-    [SerializeField] private int _timedIntervalSpawnCount;
-    [SerializeField] private int _spawnTime;
+    [SerializeField] private int _SpawnCount;
 
     [SerializeField] private float _spawnRadius;
     [SerializeField] private EnemyPool _enemyPool;
 
-    private void Start()
-    {
-        for (int i = 0; i < _startSpawnCount; i++)
-        {
-            SpawnEnemy();
-        }
+    private List<Enemy> _enemies = new List<Enemy>();
 
-        StartCoroutine(SpawnWithInterval(_spawnTime));
+    private Camera _camera;
+
+    private void Awake()
+    {
+        _camera = Camera.main;
     }
+
+
+    #region Handle Enemies
 
     private void Update()
     {
-        for (int i = 0; i < _perFrameSpawnCount; i++)
+        if (!_shouldRunEnemies) return;
+
+        foreach (Enemy enemy in _enemies)
+        {
+            enemy.UpdateEnemy();
+        }
+    }
+
+    public void RemoveEnemy(Enemy enemy)
+    {
+        _enemies.Remove(enemy);
+    }
+
+    #endregion
+
+
+    #region Spawn
+    private Enemy GetEnemy() => _enemyPool.pool.Get();
+
+    public void SpawnEnemies()
+    {
+        for (int i = 0; i < _SpawnCount; i++)
         {
             SpawnEnemy();
         }
     }
 
-    public void UpdateSpawnPerSecCount(int count)
+    void SpawnEnemy()
     {
-        _timedIntervalSpawnCount = count;
-    }
+        var enemy = GetEnemy();
 
-    private Enemy GetEnemy()
-    {
-        return _enemyPool.pool.Get();
-    }
+        enemy.transform.position = GetRandomSpawnPoint();
+        enemy.transform.localScale = transform.localScale * Random.Range(0.5f, 1.2f);
 
-    private IEnumerator SpawnWithInterval(int interval)
-    {
-        for (int i = 0; i < _timedIntervalSpawnCount; i++)
-        {
-            SpawnEnemy();
-        }
-
-        yield return new WaitForSeconds(interval);
-
-        StartCoroutine(SpawnWithInterval(interval));
+        _enemies.Add(enemy);
+        enemy.SetSpawner(this);
     }
 
     private Vector3 GetRandomSpawnPoint()
     {
-        float x = Random.Range(-1f, 1f);
-        float z = Random.Range(-1f, 1f);
+        var minPoint = _camera.ScreenToWorldPoint(new(0, 0));
+        var maxPoint = _camera.ScreenToWorldPoint(new(Screen.width, Screen.height));
+
+        float x = Random.Range(minPoint.x, maxPoint.x);
+        float z = Random.Range(minPoint.z, maxPoint.z);
+
         Vector3 randomPoint = new(x, 0, z);
-        randomPoint.Normalize();
-        return randomPoint * _spawnRadius;
+        return randomPoint; ;
     }
 
-    void SpawnEnemy() {
-
-        var enemy = GetEnemy();
-
-        var spawnPoint = GetRandomSpawnPoint();
-        var aimDir = -spawnPoint.normalized; //we just send it towards 0,0,0 for now
-
-        enemy.StartEnemy(aimDir, spawnPoint);
-    }
+    #endregion
 }

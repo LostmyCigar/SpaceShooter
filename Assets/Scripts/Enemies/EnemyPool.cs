@@ -18,7 +18,7 @@ public class EnemyPool : MonoBehaviour
 
         pool = new ObjectPool<Enemy>(CreateEnemy, OnTakeFromPool, OnReturnToPool);
 
-        for (int i = 0; i < 50000; i++)
+        for (int i = 0; i < 50; i++)
         {
             var enemy = CreateEnemy();
             enemy.Remove();

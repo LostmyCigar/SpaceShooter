@@ -30,6 +30,16 @@ namespace Player
             MoveDir = new(x, 0, z);
         }
 
+        public void SpawnInput(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                EnemySpawner.Instance.SpawnEnemies();
+                Debug.Log("Spawn!");
+            }
+
+        }
+
         public void MouseAimInput(InputAction.CallbackContext context)
         {
             mouseScreenPos = context.ReadValue<Vector2>();
@@ -49,7 +59,7 @@ namespace Player
 
 
 
-
+        //This is w/e, we dont care about archetecture anyway
         private void Update()
         {
             if (mouse1Pressed)

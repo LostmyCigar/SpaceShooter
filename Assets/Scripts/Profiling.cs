@@ -29,12 +29,23 @@ public class Profiling : MonoBehaviour
         FrameCounter++;
     }
 
+    public static float CalculatePi(int iterations)
+    {
+        float pi = 0.0f;
+        for (int i = 0; i < iterations; i++)
+        {
+            pi += 4.0f * Mathf.Pow(-1, i) / (2 * i + 1);
+        }
+        return pi;
+    }
 
     private IEnumerator UpdateText()
     {
         yield return new WaitForSeconds(0.5f);
 
-        FrameCounterText.text = "FPS: " + (1f / Time.deltaTime).ToString();
+        int fps = (int)(1f / Time.deltaTime);
+
+        FrameCounterText.text = "FPS: " + fps.ToString();
         EnemyCounterText.text = "Active Enemies: " + EnemyCounter.ToString();
         //EnemiesPerFrameText.text = "Spawn Per Interval: " + EnemiesPerFrame.ToString();
     

@@ -32,6 +32,19 @@ We now have game about remove enemies to improve your Fps, amazing.
     }
 ```
 
+We now have one goal in mind; optimize away our Thread.Sleep (by moving it away from the main thread). Incase things goes wrong I am ready to change our Sleepy calculations into this instead:
+
+ ```
+    public static float CalculatePi(int iterations)
+    {
+        float pi = 0.0f;
+        for (int i = 0; i < iterations; i++)
+        {
+            pi += 4.0f * Mathf.Pow(-1, i) / (2 * i + 1);
+        }
+        return pi;
+    }
+ ```
 
 # Updated
 

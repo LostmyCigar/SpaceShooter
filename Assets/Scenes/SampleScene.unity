@@ -1621,6 +1621,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 694112918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1231476164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1231476166}
+  - component: {fileID: 1231476165}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1231476165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231476164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614e295e65d3bce4abf588fab3bd61cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 7117724706047459015, guid: b28acc19822e4a142937f163ffdfb731,
+    type: 3}
+  ActiveEnemies: 0
+  InactiveEnemies: 0
+--- !u!4 &1231476166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231476164}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.13171, y: -9.127002, z: -12.852332}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1262630907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,7 +1833,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1396606800}
   - component: {fileID: 1396606801}
-  - component: {fileID: 1396606802}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -1822,25 +1869,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 7117724706047459015, guid: b28acc19822e4a142937f163ffdfb731,
     type: 3}
+  _doJobs: 0
+  _shouldRunEnemies: 1
+  _calculatePI: 1
   _SpawnCount: 1
   _spawnRadius: 20
-  _enemyPool: {fileID: 1396606802}
---- !u!114 &1396606802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1396606799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 614e295e65d3bce4abf588fab3bd61cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 7117724706047459015, guid: b28acc19822e4a142937f163ffdfb731,
-    type: 3}
-  ActiveEnemies: 0
-  InactiveEnemies: 0
+  _enemyPool: {fileID: 1231476165}
 --- !u!1 &1483924389
 GameObject:
   m_ObjectHideFlags: 0
@@ -2193,6 +2227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e08b2a83a17e742b897b73abcbfa52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 1396606801}
   MoveDir: {x: 0, y: 0, z: 0}
   mouseAimPoint: {x: 0, y: 0, z: 0}
   mouse1Pressed: 0
@@ -2350,6 +2385,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3ea6b69a-2951-4277-8280-17c09d05929e
     m_ActionName: Gameplay/Spawn[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 450098199213379450}
+        m_TargetAssemblyTypeName: Player.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: ToggleJobs
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1354e812-a284-4582-bba0-a5a074c044fa
+    m_ActionName: Gameplay/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 450098199213379450}
+        m_TargetAssemblyTypeName: Player.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: TogglePI
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3f4f0eb4-194f-4268-b917-2c63eebe3c60
+    m_ActionName: Gameplay/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -2626,3 +2693,4 @@ SceneRoots:
   - {fileID: 694112918}
   - {fileID: 1296049853}
   - {fileID: 1483924390}
+  - {fileID: 1231476166}

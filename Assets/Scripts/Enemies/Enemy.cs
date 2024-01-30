@@ -1,6 +1,7 @@
 using UnityEngine;
 using Player;
 using UnityEngine.Pool;
+using Unity.Mathematics;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using Unity.Jobs;
@@ -32,11 +33,38 @@ public class Enemy : MonoBehaviour, IDamagable
         this.spawner = spawner; 
     }
 
-    public void UpdateEnemy()
+    public void SleepyThread()
     {
         Thread.Sleep(1);
     }
 
+    public void CalculateCirclesOrSomething()
+    {
+        Profiling.CalculatePi(10000);
+    }
+
+
+    #region JOBS
+    public void SleepOnTheJob()
+    {
+
+    }
+    public void DoneSleepingOnTheJob()
+    {
+
+    }
+
+    public void CalculatePieJOB()
+    {
+
+    }
+
+    public void CompleteCalculatePieJOB()
+    {
+
+    }
+
+    #endregion
 
 
     public void TakeDamage(int damage)
@@ -50,6 +78,7 @@ public class Enemy : MonoBehaviour, IDamagable
     }
     public void Remove()
     {
+        spawner.RemoveEnemy(this);
         _pool.Release(this);
     }
 }

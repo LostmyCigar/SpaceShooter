@@ -4,11 +4,13 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EnemySpawner : GenericSingleton<EnemySpawner>
+public class EnemySpawner : MonoBehaviour 
 {
     [SerializeField] Enemy _enemyPrefab;
 
+    [SerializeField] private bool _doJobs = false;
     [SerializeField] private bool _shouldRunEnemies = true;
+    [SerializeField] private bool _calculatePI = true;
 
     [SerializeField] private int _SpawnCount;
 
@@ -27,19 +29,68 @@ public class EnemySpawner : GenericSingleton<EnemySpawner>
 
     #region Handle Enemies
 
+    //private void Start()
+    //{
+    //    for (int i = 0; i < 50; i++)
+    //    {
+    //        SpawnEnemy();
+    //    }
+    //}
+
     private void Update()
     {
         if (!_shouldRunEnemies) return;
 
-        foreach (Enemy enemy in _enemies)
+        //Ugly nest
+        if (!_doJobs)
         {
-            enemy.UpdateEnemy();
+            if (_calculatePI)
+            {
+                foreach (Enemy enemy in _enemies)
+                {
+                    enemy.CalculateCirclesOrSomething();
+                }
+            }
+            else
+            {
+                foreach (Enemy enemy in _enemies)
+                {
+                    enemy.SleepyThread();
+                }
+            }
+        } else
+        {
+            if (_calculatePI)
+            {
+                foreach (Enemy enemy in _enemies)
+                {
+                    enemy.CalculatePieJOB();
+                }
+            }
+            else
+            {
+                foreach (Enemy enemy in _enemies)
+                {
+                    enemy.SleepOnTheJob();
+                }
+            }
         }
+    }
+
+    public void TogglePiAndSleep()
+    {
+        _calculatePI = !_calculatePI;
+    }
+
+    public void ToggleJobs()
+    {
+        _doJobs = !_doJobs;
     }
 
     public void RemoveEnemy(Enemy enemy)
     {
-        _enemies.Remove(enemy);
+        if (_enemies.Contains(enemy))
+             _enemies.Remove(enemy);
     }
 
     #endregion
@@ -53,6 +104,14 @@ public class EnemySpawner : GenericSingleton<EnemySpawner>
         for (int i = 0; i < _SpawnCount; i++)
         {
             SpawnEnemy();
+        }
+    }
+
+    public void DestroyAllEnemies()
+    {
+        foreach (var enemy in _enemies)
+        {
+            enemy.Remove();
         }
     }
 

@@ -6,6 +6,9 @@ namespace Player
 {
     public class PlayerInputHandler : MonoBehaviour
     {
+        //Let makes this easy peasy 
+        [SerializeField] private EnemySpawner spawner;
+
         private Player player;
 
         public Vector3 MoveDir;
@@ -34,10 +37,20 @@ namespace Player
         {
             if (context.started)
             {
-                EnemySpawner.Instance.SpawnEnemies();
+                spawner.SpawnEnemies();
                 Debug.Log("Spawn!");
             }
 
+        }
+
+        public void ToggleJobs(InputAction.CallbackContext context)
+        {
+            if (context.started) { spawner.ToggleJobs();}
+        }
+
+        public void TogglePI(InputAction.CallbackContext context)
+        {
+            if (context.started) { spawner.TogglePiAndSleep(); }
         }
 
         public void MouseAimInput(InputAction.CallbackContext context)

@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Unity.Mathematics;
 
 
 public class Profiling : MonoBehaviour
@@ -34,7 +35,7 @@ public class Profiling : MonoBehaviour
         float pi = 0.0f;
         for (int i = 0; i < iterations; i++)
         {
-            pi += 4.0f * Mathf.Pow(-1, i) / (2 * i + 1);
+            pi += 4.0f * math.pow(-1, i) / (2 * i + 1);
         }
         return pi;
     }

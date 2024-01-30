@@ -2,7 +2,10 @@
 
 I start off with a _not as naive_ implementation this time. I already have a spaceshooter working, lets make it less shoot-y and more optimized-y. 
 
-I started off with stipping away the old stuff in the enemies. No more movement, spawning in intervals, getting shot, etc. I now spawn 1 enemy when I press space and to make each enemy heavy they run a good old Thread.Sleep(1).
+I started off with stipping away the old stuff in the enemies. No more movement, spawning in intervals, getting shot, etc. I now spawn 1 enemy when I press space and to make each enemy heavy they run a good old Thread.Sleep(1).  
+
+I kept the pooling of bullets and enemies, even though they are not my primary focus. 
+But as a side note the pooling works well, the only garbage generated in the game comes from Debug.Log and Coroutines (ignoring the first time we instantiate bullets and enemies).
 
 We now have game about remove enemies to improve your Fps, amazing. 
 
@@ -40,11 +43,22 @@ We now have one goal in mind; optimize away our Thread.Sleep (by moving it away 
         float pi = 0.0f;
         for (int i = 0; i < iterations; i++)
         {
-            pi += 4.0f * Mathf.Pow(-1, i) / (2 * i + 1);
+            pi += 4.0f * math.pow(-1, i) / (2 * i + 1);
         }
         return pi;
     }
  ```
+
+### Profiling Pictures and Discoveries
+All profiling is done in standalone builds  
+
+![1Sleepy](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/8354803b-2224-49d0-87e2-11e4d9944286)  
+![2CalcPI](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/af10b393-c127-4f7a-95bc-c85499c13514)  
+
+Here we have our two heavy lifters. I aded input to toggle between them so we can have a more "side by side"-comparision in the profiling session. 
+Sleep is a lot more consistant and makes for easier testing. But as of writing this, I have not implemented Jobs yet and am worried that the Burst compiler might just "optmize" away our sleep.  
+Also, Sleep seems to last for 1 millisecond longer than it should? Weird, but consistant so it doesnt really matter.  
+
 
 # Updated
 

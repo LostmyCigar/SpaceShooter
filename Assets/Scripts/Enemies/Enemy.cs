@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using Unity.Jobs;
 using System.Threading;
+using Unity.Burst;
 
 public class Enemy : MonoBehaviour, IDamagable
 {
@@ -47,21 +48,27 @@ public class Enemy : MonoBehaviour, IDamagable
     #region JOBS
     public void SleepOnTheJob()
     {
+        var handle = TheSleeping();
 
+        //Check if we need this to be in lateupdate later
+        handle.Complete();
     }
-    public void DoneSleepingOnTheJob()
+    public JobHandle TheSleeping()
     {
-
+        var pieJob = new SleepJob();
+        return pieJob.Schedule();
     }
 
-    public void CalculatePieJOB()
+    public void CalculatePiJOB()
     {
-
+        var handle = ThePiStuff();
+        handle.Complete();
     }
 
-    public void CompleteCalculatePieJOB()
+    public JobHandle ThePiStuff()
     {
-
+        var pieJob = new PieJob();
+        return pieJob.Schedule();
     }
 
     #endregion
@@ -80,5 +87,29 @@ public class Enemy : MonoBehaviour, IDamagable
     {
         spawner.RemoveEnemy(this);
         _pool.Release(this);
+    }
+}
+
+
+[BurstCompile]
+public struct PieJob : IJob //could be private
+{
+    public void Execute()
+    {
+        float pi = 0.0f;
+        for (int i = 0; i < 10000; i++)
+        {
+            pi += 4.0f * math.pow(-1, i) / (2 * i + 1);
+        }
+    }
+}
+
+
+[BurstCompile]
+public struct SleepJob : IJob
+{
+    public void Execute()
+    {
+        Thread.Sleep(1);
     }
 }

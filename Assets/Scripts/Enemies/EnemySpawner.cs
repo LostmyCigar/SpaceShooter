@@ -64,7 +64,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 foreach (Enemy enemy in _enemies)
                 {
-                    enemy.CalculatePieJOB();
+                    enemy.CalculatePiJOB();
                 }
             }
             else

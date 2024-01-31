@@ -65,6 +65,32 @@ Jobs here are scheduled an then completed before scheduling the next one.
 ![JobsVsUnemployed](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/50d4e2cd-91f7-4988-8771-3a2a66e36476)  
 (This is in editor profiling)
 
+Now the brust compiler is fantistic and so, but in my case its doing a too good job to be allowed. See when I turn on Burst Compiling it seems to realize that im not acually doing anything with my Pi calculations, and choses to just not do them at all. (Also it doesnt accept Thread.Sleep at all, good we have a backup then)
+![4BurstCompilerRuiningMyStuff](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/6dae2a4c-151c-4004-a145-2309c5221cc0)  
+Great for making video games, not so great for experimenting with optimization.
+
+Now on to a bigger issue. When disabling the burstcompiler and profliling I get two very different results:  
+
+ - Letting threads sleep gave back the expected results  
+The main thread take a slightly shorter nap and the worker threads sleep (instead of being idle, a big difference)
+
+![6MultiSleeping](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/60cc484d-fbb8-44bc-acb3-0bebdb9c5ce2)  ![7SingleSleeping](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/6dc36182-549c-40d3-9940-db829d24021a)  
+Very good!
+
+And while I could quit while im ahead, I'll show the sad truth instead 
+
+ - Calculating Pi is significantly slower
+
+![5SlowMulti](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/2a9b0432-fa6d-42b9-863a-7db9d77e2f75)  
+![6PiSingleFast](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/8a7c3592-62af-4d59-9ef5-1d15065ba1ee)
+
+Ive not succeded in understanding why this is. When playing without unitys profiler up I see improvements in the fps when multithreading, but as soon as I open the profiler the Fps gets significantly lower (both with and without jobs). If you know why this migth be, please do tell. 
+
+Here is my non-profiling results:
+
+![9OwnProfiling](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/d01c46a5-6d86-4df1-a85f-cd12a37a98c1)
+
+![ProfilerWeirdness](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/bf3f2932-27e4-4b62-97a8-f54bc91bad1d)
 
 
 # Updated

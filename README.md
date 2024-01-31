@@ -50,7 +50,7 @@ We now have one goal in mind; optimize away our Thread.Sleep (by moving it away 
  ```
 
 ### Profiling Pictures and Discoveries
-All profiling is done in standalone builds  
+All profiling is done in standalone builds (unless stated otherwise)
 
 ![1Sleepy](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/8354803b-2224-49d0-87e2-11e4d9944286)  
 ![2CalcPI](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/af10b393-c127-4f7a-95bc-c85499c13514)  
@@ -58,6 +58,11 @@ All profiling is done in standalone builds
 Here we have our two heavy lifters. I aded input to toggle between them so we can have a more "side by side"-comparision in the profiling session. 
 Sleep is a lot more consistant and makes for easier testing. But as of writing this, I have not implemented Jobs yet and am worried that the Burst compiler might just "optmize" away our sleep.  
 Also, Sleep seems to last for 1 millisecond longer than it should? Weird, but consistant so it doesnt really matter.  
+
+Before multithreading I wanted to see if we could notice a difference by just using jobs.  
+Jobs here are scheduled an then completed before scheduling the next one. 
+
+
 
 
 # Updated

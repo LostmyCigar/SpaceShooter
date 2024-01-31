@@ -60,8 +60,10 @@ Sleep is a lot more consistant and makes for easier testing. But as of writing t
 Also, Sleep seems to last for 1 millisecond longer than it should? Weird, but consistant so it doesnt really matter.  
 
 Before multithreading I wanted to see if we could notice a difference by just using jobs.  
-Jobs here are scheduled an then completed before scheduling the next one. 
+Jobs here are scheduled an then completed before scheduling the next one.  
 
+![JobsVsUnemployed](https://github.com/LostmyCigar/SpaceShooter/assets/60781151/50d4e2cd-91f7-4988-8771-3a2a66e36476)  
+(This is in editor profiling)
 
 
 

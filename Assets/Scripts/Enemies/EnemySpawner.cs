@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -19,6 +20,8 @@ public class EnemySpawner : MonoBehaviour
 
     private List<Enemy> _enemies = new List<Enemy>();
 
+
+
     private Camera _camera;
 
     private void Awake()
@@ -33,15 +36,22 @@ public class EnemySpawner : MonoBehaviour
     {
         if (!_shouldRunEnemies) return;
 
-        //Ugly nest
+        Profiling.DoingPI = _calculatePI;
+        Profiling.JobsON = _doJobs;
+
+        //Im just adding the fastest way of doing something when i need something new 
+        //Very low code quality
+
         if (!_doJobs)
         {
             if (_calculatePI)
             {
+                float result = 0;
                 foreach (Enemy enemy in _enemies)
                 {
-                    enemy.CalculateCirclesOrSomething();
+                    result += enemy.CalculateCirclesOrSomething();
                 }
+                Profiling.AddingPI = result;
             }
             else
             {
@@ -57,9 +67,10 @@ public class EnemySpawner : MonoBehaviour
 
         //Jobs
         //if done with delegates we could skip the if/else here but its fine for this
-        NativeList<JobHandle> handles  = new NativeList<JobHandle>(Allocator.Temp);
+        NativeList<JobHandle> handles = new NativeList<JobHandle>(Allocator.Temp);
         if (_calculatePI)
         {
+
             foreach (Enemy enemy in _enemies)
             {
                 var handle = enemy.CalculatePiJOB();

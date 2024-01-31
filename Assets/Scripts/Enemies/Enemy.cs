@@ -39,9 +39,9 @@ public class Enemy : MonoBehaviour, IDamagable
         Thread.Sleep(1);
     }
 
-    public void CalculateCirclesOrSomething()
+    public float CalculateCirclesOrSomething()
     {
-        Profiling.CalculatePi(10000);
+        return Profiling.CalculatePi(10000);
     }
 
 

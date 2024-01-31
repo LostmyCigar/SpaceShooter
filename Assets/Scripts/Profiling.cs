@@ -6,19 +6,18 @@ using Unity.Mathematics;
 
 public class Profiling : MonoBehaviour
 {
-
+    [SerializeField] private TMP_Text SleepOrPIText;
+    [SerializeField] private TMP_Text JobsOnText;
     [SerializeField] private TMP_Text FrameCounterText;
     [SerializeField] private TMP_Text EnemyCounterText;
-    [SerializeField] private TMP_Text EnemiesPerFrameText;
+    [SerializeField] private TMP_Text AddingPIText;
 
+    public static bool JobsON;
     public static int FrameCounter;
     public static int EnemyCounter;
 
-    public static int EnemiesPerFrame
-    {
-        get { return EnemyCounter / FrameCounter; }
-    }
-
+    public static bool DoingPI;
+    public static float AddingPI;
 
     private void Start()
     {
@@ -30,10 +29,10 @@ public class Profiling : MonoBehaviour
         FrameCounter++;
     }
 
-    public static float CalculatePi(int iterations)
+    public static float CalculatePi(int instances)
     {
         float pi = 0.0f;
-        for (int i = 0; i < iterations; i++)
+        for (int i = 0; i < instances; i++)
         {
             pi += 4.0f * math.pow(-1, i) / (2 * i + 1);
         }
@@ -46,9 +45,18 @@ public class Profiling : MonoBehaviour
 
         int fps = (int)(1f / Time.deltaTime);
 
+        string usedFunc = DoingPI ? "PI" : "Sleep";
+        SleepOrPIText.text = "Heavy Function: " + usedFunc;
+
         FrameCounterText.text = "FPS: " + fps.ToString();
         EnemyCounterText.text = "Active Enemies: " + EnemyCounter.ToString();
-        //EnemiesPerFrameText.text = "Spawn Per Interval: " + EnemiesPerFrame.ToString();
+        JobsOnText.text = "Using Jobs: " + JobsON.ToString();
+
+        if (DoingPI) {
+            AddingPIText.text = "Adding Pi Result: " + AddingPI.ToString();
+        }
+        else AddingPIText.text = "Not currently calculating PI";
+
     
         StartCoroutine(UpdateText());
     }

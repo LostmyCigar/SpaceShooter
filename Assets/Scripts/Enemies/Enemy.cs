@@ -46,30 +46,17 @@ public class Enemy : MonoBehaviour, IDamagable
 
 
     #region JOBS
-    public void SleepOnTheJob()
-    {
-        var handle = TheSleeping();
-
-        //Check if we need this to be in lateupdate later
-        handle.Complete();
-    }
-    public JobHandle TheSleeping()
+    public JobHandle SleepOnTheJob()
     {
         var pieJob = new SleepJob();
         return pieJob.Schedule();
     }
-
-    public void CalculatePiJOB()
-    {
-        var handle = ThePiStuff();
-        handle.Complete();
-    }
-
-    public JobHandle ThePiStuff()
+    public JobHandle CalculatePiJOB()
     {
         var pieJob = new PieJob();
         return pieJob.Schedule();
     }
+
 
     #endregion
 
@@ -91,7 +78,6 @@ public class Enemy : MonoBehaviour, IDamagable
 }
 
 
-[BurstCompile]
 public struct PieJob : IJob //could be private
 {
     public void Execute()
@@ -105,7 +91,6 @@ public struct PieJob : IJob //could be private
 }
 
 
-[BurstCompile]
 public struct SleepJob : IJob
 {
     public void Execute()

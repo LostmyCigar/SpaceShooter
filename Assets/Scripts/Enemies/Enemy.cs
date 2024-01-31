@@ -77,7 +77,6 @@ public class Enemy : MonoBehaviour, IDamagable
     }
 }
 
-
 public struct PieJob : IJob //could be private
 {
     public void Execute()
@@ -89,7 +88,6 @@ public struct PieJob : IJob //could be private
         }
     }
 }
-
 
 public struct SleepJob : IJob
 {
